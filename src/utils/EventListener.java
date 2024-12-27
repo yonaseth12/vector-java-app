@@ -13,14 +13,44 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import components.MainFrame;
+import utils.TimeFormatter;
 
 
 
 public class EventListener implements ActionListener {
     private MainFrame mainFrame;
+    Thread timeline;
 
     public EventListener(MainFrame mainFrame){
         this.mainFrame = mainFrame;
+
+        timeline = new Thread(){
+            public void run(){
+                while (true){
+                    if(MainFrame.clip.isActive()){
+                        MainFrame.currentInMicro = MainFrame.clip.getMicrosecondPosition();
+                        String timeline_tracker = TimeFormatter.formattedTimeOf(MainFrame.currentInMicro) + "/ ";
+                        // mainFrame.controls_panel.currentTimeLabel.setText(timeline_tracker);
+                        mainFrame.controls_panel.timelineSlider.setValue((int)(300 * MainFrame.currentInMicro/MainFrame.clip.getMicrosecondLength()));
+                        System.out.println(timeline_tracker);
+                        try {
+                            Thread.sleep(100);
+                            // Added to reduce overload due to repeated iteration
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread Interrupted.");
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread Interrupted.");
+                        }
+                    }
+                }
+            }
+        };
+        
+        timeline.start();
     }
 
     @Override
@@ -162,16 +192,6 @@ public class EventListener implements ActionListener {
                         MainFrame.clip = AudioSystem.getClip();
                         MainFrame.clip.open(mainFrame.audioStream);
                         MainFrame.clip.start();
-
-                        // timeline = new Thread(){
-                        //     public void run(){
-                        //         currentInMicro = MainFrame.clip.getMicrosecondPosition();
-                        //         timelineTracker = formattedTimeOf(currentInMicro) + "\\ ";
-                        //         currentTimeLabel.setText(timelineTracker);
-                        //         timelineSlider.setValue((int)(currentInMicro/MainFrame.clip.getMicrosecondLength()));
-                        //     }
-                        // };
-                        // timeline.start();
 
                         mainFrame.TitlePlaylist.setText("");
                         mainFrame.playlist_label.setText("");

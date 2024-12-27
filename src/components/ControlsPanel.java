@@ -28,9 +28,9 @@ public class ControlsPanel extends JPanel {
         bottomControlsToolsPanel = new JPanel();
         
         add(bottomTimelinePanel);
-        bottomTimelinePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        bottomTimelinePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         add(bottomControlsToolsPanel);
-        bottomControlsToolsPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 3));
+        bottomControlsToolsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 3));
         
         createBottomTimelineControlsPanel(mainFrame);
         createBottomControlsToolsPanel(mainFrame);
