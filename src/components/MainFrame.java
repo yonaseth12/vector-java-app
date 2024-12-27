@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
         setSize(800,450);
         setMinimumSize(new Dimension(820,450));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        logo = new ImageIcon("../assets/logo.png");
+        logo = new ImageIcon("src/assets/logo.png");
         setIconImage(logo.getImage());
 
         main_page = getContentPane();
@@ -56,11 +56,12 @@ public class MainFrame extends JFrame {
 
 
         //Adding Controls Panel
-        controls_panel = new ControlsPanel(this);
+        controls_panel = new ControlsPanel();
         main_page.add(controls_panel, BorderLayout.SOUTH);
         controls_panel.setAlignmentY(BOTTOM_ALIGNMENT);
         controls_panel.setBackground(Color.BLACK);
         controls_panel.setLayout(new GridLayout(2,1));
+        controls_panel.addControlsPanelComponents(this);
         
         // Adding a Playlist Panel
         playlist_panel = new JPanel();
@@ -75,7 +76,7 @@ public class MainFrame extends JFrame {
         setJMenuBar(top_menu_bar);
         
         // Adding Background Icon and Image
-        backgroundIcon = new ImageIcon("../assets/backgroundIcon.png");
+        backgroundIcon = new ImageIcon("src/assets/backgroundIcon.png");
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setIcon(backgroundIcon);
         main_page.add(backgroundLabel, BorderLayout.CENTER);

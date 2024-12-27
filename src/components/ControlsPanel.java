@@ -18,24 +18,31 @@ public class ControlsPanel extends JPanel {
     public JLabel totalTimeLabel, currentTimeLabel;
 
     
-    public ControlsPanel(MainFrame mainFrame) {
-
-        bottomTimelinePanel = createBottomTimelineControlsPanel(mainFrame);
-        bottomControlsToolsPanel = createBottomControlsToolsPanel(mainFrame);
-
-        add(bottomTimelinePanel);
-        bottomTimelinePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
-        add(bottomControlsToolsPanel);
-        bottomControlsToolsPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 3));
+    public ControlsPanel() {
+        // Do nothing
     }
 
-    private JPanel createBottomTimelineControlsPanel(MainFrame mainFrame) {
+    public void addControlsPanelComponents(MainFrame mainFrame){
 
-        JPanel bottomTimelineJPanel = new JPanel(); 
+        bottomTimelinePanel = new JPanel();
+        bottomControlsToolsPanel = new JPanel();
+        
+        add(bottomTimelinePanel);
+        bottomTimelinePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        add(bottomControlsToolsPanel);
+        bottomControlsToolsPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 3));
+        
+        createBottomTimelineControlsPanel(mainFrame);
+        createBottomControlsToolsPanel(mainFrame);
+
+    }
+
+    private void createBottomTimelineControlsPanel(MainFrame mainFrame) {
+
         timelineSlider = new JSlider(0,300);
         timelineSlider.setPreferredSize(new Dimension(mainFrame.getWidth() - 190, 18));
         timelineSlider.setValue(0);
-        bottomTimelineJPanel.add(timelineSlider);
+        bottomTimelinePanel.add(timelineSlider);
 
         currentTimeLabel = new JLabel("--:--:--/");
         currentTimeLabel.setFont(new Font("Helvetica", Font.PLAIN, 18));
@@ -43,8 +50,8 @@ public class ControlsPanel extends JPanel {
         totalTimeLabel = new JLabel("--:--:--");
         totalTimeLabel.setFont(new Font("Helvetica", Font.PLAIN, 18));
         totalTimeLabel.setForeground(Color.BLACK);
-        bottomTimelineJPanel.add(currentTimeLabel);
-        bottomTimelineJPanel.add(totalTimeLabel);
+        bottomTimelinePanel.add(currentTimeLabel);
+        bottomTimelinePanel.add(totalTimeLabel);
 
         timelineSlider.addChangeListener(new ChangeListener() {
             @Override
@@ -61,13 +68,10 @@ public class ControlsPanel extends JPanel {
             }
         });
 
-        return bottomTimelineJPanel;
-
     }
 
-    private JPanel createBottomControlsToolsPanel(MainFrame mainFrame) {
+    private void createBottomControlsToolsPanel(MainFrame mainFrame) {
 
-        JPanel bottomControlsToolsJPanel = new JPanel();
         playPause = new JButton("▶️");
         playPause.setMnemonic(KeyEvent.VK_ENTER);
         playPause.setToolTipText("Play/Pause");
@@ -147,19 +151,19 @@ public class ControlsPanel extends JPanel {
         });
 
         
-        add(playPause);
-        add(previousFile);
-        add(nextFile);
-        add(looper);
-        add(reset);
-        add(open);
-        add(playlist);
-        add(controls);
-        add(mute);
-        add(volumedown);
-        add(volumeSlider);
-        add(volumeup);
-        setBackground(Color.lightGray);
+        bottomControlsToolsPanel.add(playPause);
+        bottomControlsToolsPanel.add(previousFile);
+        bottomControlsToolsPanel.add(nextFile);
+        bottomControlsToolsPanel.add(looper);
+        bottomControlsToolsPanel.add(reset);
+        bottomControlsToolsPanel.add(open);
+        bottomControlsToolsPanel.add(playlist);
+        bottomControlsToolsPanel.add(controls);
+        bottomControlsToolsPanel.add(mute);
+        bottomControlsToolsPanel.add(volumedown);
+        bottomControlsToolsPanel.add(volumeSlider);
+        bottomControlsToolsPanel.add(volumeup);
+        bottomControlsToolsPanel.setBackground(Color.lightGray);
 
         playPause.addActionListener(new EventListener(mainFrame));
         previousFile.addActionListener(new EventListener(mainFrame));
@@ -173,8 +177,6 @@ public class ControlsPanel extends JPanel {
         open.addActionListener(new EventListener(mainFrame));
         playlist.addActionListener(new EventListener(mainFrame));
 
-
-        return bottomControlsToolsJPanel;
 
     }
 }
