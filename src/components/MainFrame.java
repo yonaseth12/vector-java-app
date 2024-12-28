@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     public JLabel musicLabel, playlist_label, TitlePlaylist;
     public static float currentVolume = 0, lastRecordedVolume = 0;
     public static long timeLineTracker = 0, currentInMicro;
-    public static boolean muteState = false, playlistIsActive = false;
+    public static boolean muteState = false, playlistIsActive = false, timelineSliderIsOnlyPointing = false;
     public static File[] directoryListing;
     public static FloatControl volume, reverbration;
     public static Clip clip;
@@ -75,20 +75,35 @@ public class MainFrame extends JFrame {
         top_menu_bar = new TopMenuBar(this); 
         setJMenuBar(top_menu_bar);
         
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        
+        // ADDING CENTER PANEL
+
         // Adding Background Icon and Image
         backgroundIcon = new ImageIcon("src/assets/backgroundIcon.png");
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setIcon(backgroundIcon);
-        main_page.add(backgroundLabel, BorderLayout.CENTER);
         backgroundLabel.setHorizontalAlignment(CENTER);
+        backgroundLabel.setVerticalAlignment(CENTER);
+        JPanel backgroundLabelPanel = new JPanel(new GridBagLayout());           // Used to center components
+        backgroundLabelPanel.add(backgroundLabel);
 
         // Adding Music Label
         musicLabel = new JLabel("");
-        main_page.add(musicLabel, BorderLayout.WEST);
-        musicLabel.setAlignmentY(BOTTOM_ALIGNMENT);
         musicLabel.setFont(new Font("Verdana", Font.PLAIN, 30));
         musicLabel.setForeground(Color.WHITE);
+        JPanel musicLabelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        musicLabelPanel.add(musicLabel);
+        
+        
+        backgroundLabelPanel.setOpaque(false);              // avoid shadowing of parent's background
+        musicLabelPanel.setOpaque(false);
+        centerPanel.add(backgroundLabelPanel, BorderLayout.CENTER);
+        centerPanel.add(musicLabelPanel, BorderLayout.SOUTH);
+        centerPanel.setBackground(Color.darkGray);
+        main_page.add(centerPanel, BorderLayout.CENTER);
 
+        
         // Adding a Titleplaylist
         TitlePlaylist = new JLabel("");
         TitlePlaylist.setFont(new Font("Verdana", Font.BOLD, 18));

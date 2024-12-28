@@ -11,6 +11,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import components.MainFrame;
 import utils.TimeFormatter;
@@ -28,11 +29,13 @@ public class EventListener implements ActionListener {
             public void run(){
                 while (true){
                     if(MainFrame.clip.isActive()){
-                        MainFrame.currentInMicro = MainFrame.clip.getMicrosecondPosition();
-                        String timeline_tracker = TimeFormatter.formattedTimeOf(MainFrame.currentInMicro) + "/ ";
-                        // mainFrame.controls_panel.currentTimeLabel.setText(timeline_tracker);
-                        mainFrame.controls_panel.timelineSlider.setValue((int)(300 * MainFrame.currentInMicro/MainFrame.clip.getMicrosecondLength()));
-                        System.out.println(timeline_tracker);
+                        synchronized(MainFrame.class){
+                            
+                            MainFrame.currentInMicro = MainFrame.clip.getMicrosecondPosition();
+                            MainFrame.timelineSliderIsOnlyPointing = true;
+                            mainFrame.controls_panel.timelineSlider.setValue((int)(300 * ((double)MainFrame.currentInMicro)/MainFrame.clip.getMicrosecondLength()));
+                            MainFrame.timelineSliderIsOnlyPointing = false;
+                        }
                         try {
                             Thread.sleep(100);
                             // Added to reduce overload due to repeated iteration
@@ -271,7 +274,7 @@ public class EventListener implements ActionListener {
             }
         }
         
-        catch(UnsupportedAudioFileException eventt){
+        catch(UnsupportedAudioFileException e){
             JOptionPane.showMessageDialog(null, "    This file is not supported!\n Only .WAV .AU .AIFF file formats are supprted!", "Unsupported Audio File", JOptionPane.INFORMATION_MESSAGE);
         }
         catch(Exception e){

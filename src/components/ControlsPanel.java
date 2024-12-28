@@ -62,7 +62,9 @@ public class ControlsPanel extends JPanel {
                 else{
                     double setTime = ((double)timelineSlider.getValue() / 300.0) * MainFrame.clip.getMicrosecondLength();
                     MainFrame.timeLineTracker = (long)setTime;
-                    MainFrame.clip.setMicrosecondPosition(MainFrame.timeLineTracker);
+                    if(!MainFrame.timelineSliderIsOnlyPointing){
+                        MainFrame.clip.setMicrosecondPosition(MainFrame.timeLineTracker);
+                    }
                     currentTimeLabel.setText(TimeFormatter.formattedTimeOf(MainFrame.timeLineTracker) + "/ ");
                 }
             }
