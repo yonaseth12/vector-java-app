@@ -175,7 +175,10 @@ public class EventListener implements ActionListener {
                 }
 
                 if(event.getSource() == mainFrame.controls_panel.controls){
-                    MainFrame.reverbration.setValue(MainFrame.reverbration.getValue() + 1000);
+                    // if(MainFrame.clip.isControlSupported(FloatControl.Type.REVERB)){
+                    //     MainFrame.reverbration = MainFrame.clip.getControl(FloatControl.Type.REVERB)
+                    //     MainFrame.reverbration.setValue(MainFrame.reverbration.getValue() + 0.1f);
+                    // }
                 }
 
                 if(event.getSource() == mainFrame.controls_panel.volumeup || event.getSource() == mainFrame.top_menu_bar.volumeUpItem){
@@ -203,22 +206,6 @@ public class EventListener implements ActionListener {
                         MainFrame.volume.setValue((float)(20 * Math.log10(mainFrame.controls_panel.volumeSlider.getValue() / 50.0)));
                         mainFrame.musicLabel.setText(MainFrame.path.getName());
                         mainFrame.controls_panel.playPause.setText("⏸️");
-
-                        // Runnable  doRun;
-                        // try {
-                            // doRun = new Runnable() {
-                            //     public void run () {
-                            //         while (MainFrame.clip.isActive()){
-                            //             timelineSlider.setValue((int)((((float)MainFrame.clip.getMicrosecondPosition())/MainFrame.clip.getMicrosecondLength()) * 300.0));
-                            //             try {Thread.sleep(1000);}
-                            //             catch (InterruptedException e) {}
-                            //         }
-                            
-                                    
-                                //}
-                            //};
-                            //doRun.run();
-                        // } catch (Exception e1) {System.out.println("Error alert!!!"); //do nothing}
                         
                         mainFrame.controls_panel.totalTimeLabel.setText(TimeFormatter.formattedTimeOf(MainFrame.clip.getMicrosecondLength()));
 
